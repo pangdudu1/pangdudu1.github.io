@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<input type="text" name="aa" class="in1">
+<button class="search">搜索</button>
+<div class="box"></div>
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<script type="text/javascript">
+				$.ajax({
+					url:'http://localhost:8002/del/list',
+					type:'GET',
+					success:(e)=>{
+						console.log(e)
+						var str = '';
+						for(var i = 0; i < e.length; i++){
+							str += `<p><span>${e[i].id}</span><span>${e[i].user}</span><span>${e[i].pass}</span><button onclick="del(${e[i].id},$(this))">删除</button><br/></p>`
+						}
+						$('.box').html(str);
+					}
+				})
+				function del(el,a){
+					var id = el;
+					// console.log(id)
+					$.ajax({
+					url:'http://localhost:8002/del/del',
+					type:'POST',
+					data:{
+						id:id
+					},
+					success:(e)=>{
+						console.log(e)
+						var str = '';
+						for(var i = 0; i < e.length; i++){
+							str += `<p><span>${e[i].id}</span><span>${e[i].user}</span><span>${e[i].pass}</span><button onclick="del(${e[i].id},$(this))">删除</button><br/></p>`
+						}
+						$('.box').html(str);
+					}
+				})
+				}
+
+
+
+// 平均值
+		$.ajax({
+			url:'http://localhost:8002/del/avg',
+			type:'GET',
+			success:(e)=>{
+				console.log(e)			
+			}
+		})
+
+//模糊搜索
+	$('.search').click(()=>{
+		$.ajax({
+		url:'http://localhost:8002/del/search',
+		type:'POST',
+		data:{
+			search:$('.in1').val()
+		},
+		success:(e)=>{
+			console.log(e)			
+		}
+	})
+	})
+	
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>
